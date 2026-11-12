@@ -1,0 +1,29 @@
+{
+  "name": "full-contact-forms",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Registro de expediciones Pokémon con React Hook Form, Zod y TanStack Query.",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c blue,green \"npm:api\" \"npm:web\"",
+    "web": "vite",
+    "api": "json-server db.json --port 3001",
+    "build": "vite build",
+    "preview": "vite preview",
+    "reiniciar-datos": "node -e \"require('fs').copyFileSync('db.semilla.json','db.json')\""
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "concurrently": "^10.0.6",
+    "json-server": "^1.0.0-beta.15",
+    "vite": "^8.3.5"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.9.2",
+    "@tanstack/react-query": "^5.104.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-hook-form": "^7.91.0",
+    "zod": "^4.6.7"
+  }
+}
