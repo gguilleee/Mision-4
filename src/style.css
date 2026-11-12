@@ -1,0 +1,169 @@
+/* Estética de "cuaderno de campo": papel, tinta y el color de cada tipo como acento. */
+:root {
+  --papel: #f4f1e8;
+  --papel-oscuro: #ebe6d8;
+  --tarjeta: #fffdf7;
+  --tinta: #1b2333;
+  --tinta-suave: #5a6375;
+  --acento: #e4572e;
+  --borde: #d8d2c2;
+  --error: #b3261e;
+  --radio: 14px;
+  --sombra: 0 1px 0 var(--borde), 0 8px 24px -16px rgb(27 35 51 / 0.35);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--tinta);
+  background: var(--papel);
+  line-height: 1.5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 31px, rgb(27 35 51 / 0.04) 31px 32px),
+    var(--papel);
+}
+
+[hidden] { display: none !important; }
+
+:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
+
+/* ---------- Estructura ---------- */
+
+.cabecera, .contenido, .pie { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+.cabecera { padding-top: 40px; padding-bottom: 8px; }
+.cabecera__antetitulo { margin: 0; text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; color: var(--acento); font-weight: 800; }
+.cabecera__titulo { margin: .1em 0; font-size: clamp(2.2rem, 6vw, 3.4rem); line-height: 1.05; letter-spacing: -.02em; }
+.cabecera__lema { margin: 0; color: var(--tinta-suave); max-width: 60ch; }
+
+.seccion__titulo { margin: 32px 0 12px; font-size: .85rem; text-transform: uppercase; letter-spacing: .1em; color: var(--tinta-suave); }
+.pie { padding: 40px 16px; color: var(--tinta-suave); font-size: .85rem; }
+.pie a { color: inherit; }
+
+/* ---------- Botones ---------- */
+
+.boton {
+  font: inherit; font-weight: 600; cursor: pointer;
+  padding: .55em 1.1em; border-radius: 999px;
+  border: 2px solid var(--tinta); background: var(--tinta); color: var(--papel);
+}
+.boton:hover { background: transparent; color: var(--tinta); }
+.boton--secundario { background: transparent; color: var(--tinta); }
+.boton--secundario:hover { background: var(--tinta); color: var(--papel); }
+.boton:disabled { opacity: .5; cursor: progress; }
+
+/* ---------- Insignias de tipo ---------- */
+
+.insignia {
+  --color-tipo: #777;
+  display: inline-block; padding: .1em .6em; border-radius: 6px;
+  background: var(--color-tipo); color: #fff; font-size: .75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.insignia--clara { color: var(--tinta); }
+.insignia--puro { background: var(--tinta); }
+.nada { color: var(--tinta-suave); font-style: italic; font-size: .9rem; }
+
+/* ---------- Controles ---------- */
+
+.controles { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 20px 0 8px; }
+.campo { display: grid; gap: 4px; font-size: .85rem; font-weight: 600; color: var(--tinta-suave); }
+.campo input, .campo select {
+  font: inherit; color: var(--tinta); background: var(--tarjeta);
+  border: 2px solid var(--borde); border-radius: 10px; padding: .45em .7em; min-width: 14rem;
+}
+.campo input:focus, .campo select:focus { border-color: var(--tinta); outline: none; }
+
+.barra-estado { margin: 0 0 12px; font-size: .85rem; color: var(--tinta-suave); min-height: 1.5em; }
+.aviso { color: var(--error); font-weight: 600; }
+.enlace { font: inherit; font-weight: 700; color: var(--error); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+
+/* ---------- Estados ---------- */
+
+.estado { margin: 16px 0; padding: 14px 18px; border-radius: var(--radio); }
+.estado--cargando { color: var(--tinta-suave); padding: 0; }
+.estado--cargando::before { content: '◌ '; display: inline-block; animation: girar 1s linear infinite; }
+.estado--vacio { background: var(--papel-oscuro); color: var(--tinta-suave); text-align: center; }
+.estado--error { background: #fbe4e1; color: var(--error); border: 2px solid currentColor; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.estado--error p { margin: 0; font-weight: 600; }
+.estado--error .boton { border-color: var(--error); background: var(--error); }
+.estado--error .boton:hover { background: transparent; color: var(--error); }
+
+@keyframes girar { to { transform: rotate(360deg); } }
+@keyframes latir { 50% { opacity: .45; } }
+
+@media (max-width: 560px) {
+
+  .campo, .campo input, .campo select { width: 100%; min-width: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Disposición: formulario y registro en dos columnas ---------- */
+
+.disposicion { display: grid; gap: 8px 32px; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 900px) { .disposicion { grid-template-columns: 1fr; } }
+
+/* ---------- Formulario ---------- */
+
+.formulario { display: grid; gap: 16px; }
+.formulario__grupo {
+  margin: 0; border: 0; padding: 18px 20px; display: grid; gap: 14px;
+  background: var(--tarjeta); border-radius: var(--radio); box-shadow: var(--sombra);
+}
+.formulario__grupo legend { padding: 0; font-weight: 800; font-size: 1.05rem; float: left; width: 100%; margin-bottom: 4px; }
+.formulario__grupo legend + * { clear: both; }
+.formulario__fila { display: grid; grid-template-columns: 1fr 8rem; gap: 12px; align-items: start; }
+.formulario__acciones { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.campo-form { display: grid; gap: 4px; }
+.campo-form__etiqueta { font-weight: 700; font-size: .9rem; }
+.campo-form input, .campo-form select, .campo-form textarea {
+  font: inherit; color: var(--tinta); background: var(--papel);
+  border: 2px solid var(--borde); border-radius: 10px; padding: .5em .7em; width: 100%;
+}
+.campo-form textarea { resize: vertical; }
+.campo-form input:focus, .campo-form select:focus, .campo-form textarea:focus { border-color: var(--tinta); outline: none; }
+.campo-form--error input, .campo-form--error select, .campo-form--error textarea { border-color: var(--error); background: #fdf1ef; }
+.campo-form__ayuda { margin: 0; font-size: .78rem; color: var(--tinta-suave); }
+.campo-form__error, .casilla .campo-form__error { margin: 0; font-size: .82rem; font-weight: 700; color: var(--error); }
+.campo-form__error::before { content: '⚠ '; }
+
+.casilla { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; align-items: start; font-size: .9rem; }
+.casilla input { width: 1.2rem; height: 1.2rem; margin-top: .15rem; accent-color: var(--tinta); }
+.casilla .campo-form__error { grid-column: 2; }
+.casilla--error label { color: var(--error); }
+
+
+
+.estado--exito { background: #e3f3e6; color: #1e6b33; border: 2px solid currentColor; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin: 0; }
+.estado--exito p { margin: 0; font-weight: 600; }
+.enlace--exito { color: inherit; }
+
+/* ---------- Registro ---------- */
+
+.registro { display: grid; gap: 12px; }
+.registro__barra { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; justify-content: space-between; }
+.registro__barra .barra-estado { margin: 0; }
+.lista-expediciones { display: grid; gap: 12px; }
+
+.expedicion {
+  --color-tipo: #777;
+  background: var(--tarjeta); border-radius: var(--radio); box-shadow: var(--sombra);
+  border-left: 6px solid var(--color-tipo); padding: 14px 18px; display: grid; gap: 4px;
+}
+.expedicion__cabecera { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.expedicion__nombre { margin: 0; font-size: 1.1rem; }
+.expedicion__alias, .expedicion__datos { margin: 0; font-size: .85rem; color: var(--tinta-suave); }
+.expedicion__notas { margin: 2px 0 0; font-style: italic; font-size: .9rem; }
+.expedicion .enlace { justify-self: start; margin-top: 4px; font-size: .85rem; }
+.enlace:disabled { opacity: .5; cursor: progress; }
+
+.aviso-corruptas { background: #fff4d6; border: 2px solid #c98a00; color: #6b4a00; border-radius: var(--radio); padding: 10px 14px; font-size: .88rem; }
+.aviso-corruptas summary { cursor: pointer; font-weight: 700; }
+.aviso-corruptas ul { margin: 8px 0 0; padding-left: 1.2rem; display: grid; gap: 4px; }
+.aviso-corruptas code { font-weight: 700; }
